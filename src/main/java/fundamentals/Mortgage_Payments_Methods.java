@@ -13,26 +13,32 @@ public class Mortgage_Payments_Methods {
         // anual interest rate = 3.92 % <= r
         // period (years) = 30
         // Mortgage = 472.81$
-
+        // formula => M = P * {[r * (1+r)ⁿ] / [(1+r)ⁿ - 1]}
+        // formula => B = P * [(1+r)ⁿ - (1+r)ⁿ] / [(1+r)ⁿ - 1]
+        //                                 =>e number of payments made (second n in the formula);
 
         int principal = (int) readNumber("Type your Principal ($1K - $1M): ", 1000, 1000000);
         double anualRate = readNumber("Annual Interest Rate: ", 1, 30);
         int period = (int) readNumber("Period (Years): ", 1, 30);
 
-        // formula => M = P * {[r * (1+r)ⁿ] / [(1+r)ⁿ - 1]}
+        printMortgage(principal, anualRate, period);
 
+        printPaymentSchedule(principal, anualRate, period);
+    }
+
+    public static void printMortgage(int principal, double anualRate, int period) {
         double mortgage = calculateMortgage(principal, anualRate, period);
-
         String mortgageFormatted = NumberFormat.getCurrencyInstance().format(mortgage);
-
         System.out.println();
         System.out.println("MORTGAGE");
         System.out.println("--------");
         System.out.println("Your Montly Payments: " + mortgageFormatted);
+    }
+
+    public static void printPaymentSchedule(int principal, double anualRate, int period) {
         System.out.println();
         System.out.println("PAYMENT SCHEDULE");
         System.out.println("----------------");
-
         for(int month = 1; month <= period * MONTHS_IN_YEAR; month++ ){
             double balance = calculateLoanBalance(principal, anualRate, period, month);
             System.out.println(NumberFormat.getCurrencyInstance().format(balance));
